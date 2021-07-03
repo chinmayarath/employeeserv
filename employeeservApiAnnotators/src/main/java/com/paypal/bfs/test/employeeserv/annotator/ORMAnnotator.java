@@ -32,7 +32,7 @@ public class ORMAnnotator extends AbstractAnnotator {
 		Map<String, List<Class<? extends Annotation>>> employeeFieldMap = new HashMap<String, List<Class<? extends Annotation>>>() {
 			private static final long serialVersionUID = 1L;
 			{
-				put("id", Arrays.asList(Id.class, NotNull.class));
+				put("id", Arrays.asList(Id.class));
 				put("firstName", Arrays.asList(NotNull.class, NotBlank.class));
 				put("lastName", Arrays.asList(NotNull.class, NotBlank.class));
 				put("dob", Arrays.asList(NotNull.class, NotBlank.class));
@@ -70,9 +70,18 @@ public class ORMAnnotator extends AbstractAnnotator {
 	public void propertyField(JFieldVar field, JDefinedClass clazz, String propertyName, JsonNode propertyNode) {
 		if (propMap.get(clazz.name()) != null && propMap.get(clazz.name()).size() > 0
 				&& propMap.get(clazz.name()).containsKey(field.name())) {
-			propMap.get(clazz.name()).get(field.name()).stream().forEach(field::annotate);
+			propMap.get(clazz.name()).get(field.name()).stream().forEach(a -> {
+
+				if (NotNull.class.equals(a)) {
+					field.annotate(a).param("message", field.name() + " is not nullable");
+				} else if (NotBlank.class.equals(a)) {
+					field.annotate(a).param("message", field.name() + " should not be blank");
+				} else {
+					field.annotate(a);
+				}
+			});
 		}
-		if("Employee".equals(clazz.name()) && "id".equals(field.name())) {
+		if ("Employee".equals(clazz.name()) && "id".equals(field.name())) {
 			field.annotate(GeneratedValue.class).param("strategy", GenerationType.IDENTITY);
 		}
 	}

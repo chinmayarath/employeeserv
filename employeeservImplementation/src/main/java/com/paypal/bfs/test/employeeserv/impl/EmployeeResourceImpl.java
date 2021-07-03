@@ -1,5 +1,7 @@
 package com.paypal.bfs.test.employeeserv.impl;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,12 @@ public class EmployeeResourceImpl implements EmployeeResource {
 	}
 
 	@ExceptionHandler(UserExistException.class)
-	public ResponseEntity<?> handleContentNotAllowedException(UserExistException uee) {
-		return new ResponseEntity<>(uee.getMessage(), HttpStatus.CONFLICT);
+	public ResponseEntity<ErrorMessage> handleContentNotAllowedException(UserExistException uee) {
+		return new ResponseEntity<>(new ErrorMessage(uee.getMessage()), HttpStatus.CONFLICT);
+	}
+
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<ErrorMessage> handleValidationException(ConstraintViolationException cve) {
+		return new ResponseEntity<>(new ErrorMessage(cve.getMessage()), HttpStatus.BAD_REQUEST);
 	}
 }
