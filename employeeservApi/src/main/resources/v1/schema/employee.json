@@ -1,0 +1,40 @@
+{
+  "title": "Employee resource",
+  "description": "Employee resource object",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "employee id",
+      "type": "integer"
+    },
+    "first_name": {
+      "description": "first name",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "last_name": {
+      "description": "last name",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "dob" : {
+      "description": "Date of Birth",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "format" : "date"
+    },
+    "address" : {
+    	"$ref" : "address.json"
+    }
+  },
+  "additionalProperties" : false,
+  "required": [
+    "first_name",
+    "last_name",
+    "dob",
+    "address"
+  ]
+}

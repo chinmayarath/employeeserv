@@ -1,0 +1,51 @@
+{
+  "title": "Address schema",
+  "description": "Address resource object",
+  "type": "object",
+  "properties": {
+    "line1": {
+      "description": "Adress Line1",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "line2": {
+      "description": "Adress Line1",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "city" : {
+      "description": "City",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "country" : {
+      "description": "Country",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "state" : {
+      "description": "state",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "zip" : {
+      "description": "zip",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    }
+  },
+  "additionalProperties" : false,
+  "required": [
+    "line1",
+    "city",
+    "state",
+    "country",
+    "zip"
+  ]
+}
