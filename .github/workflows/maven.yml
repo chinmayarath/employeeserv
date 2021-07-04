@@ -23,3 +23,8 @@ jobs:
         distribution: 'adopt'
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+    - name: coverage
+      uses: codecov/codecov-action@v1.5.2
+      with:
+        directory: ./target/site/jacoco-aggregate
+        verbose: true
