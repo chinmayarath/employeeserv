@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.paypal.bfs.test.employeeserv.api.EmployeeResource;
 import com.paypal.bfs.test.employeeserv.api.model.Employee;
+import com.paypal.bfs.test.employeeserv.exception.EntityNofoundException;
 import com.paypal.bfs.test.employeeserv.exception.UserExistException;
 
 /**
@@ -39,5 +40,10 @@ public class EmployeeResourceImpl implements EmployeeResource {
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<ErrorMessage> handleValidationException(ConstraintViolationException cve) {
 		return new ResponseEntity<>(new ErrorMessage(cve.getMessage()), HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(EntityNofoundException.class)
+	public ResponseEntity<ErrorMessage> handleNotFoundException(EntityNofoundException enfe) {
+		return new ResponseEntity<>(new ErrorMessage(enfe.getMessage()), HttpStatus.NOT_FOUND);
 	}
 }

@@ -1,11 +1,13 @@
 package com.paypal.bfs.test.employeeserv.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.paypal.bfs.test.employeeserv.api.model.Employee;
+import com.paypal.bfs.test.employeeserv.exception.EntityNofoundException;
 import com.paypal.bfs.test.employeeserv.exception.UserExistException;
 import com.paypal.bfs.test.employeeserv.repo.EmployeeRepository;
 
@@ -20,7 +22,12 @@ public class EmployeeService {
 	}
 
 	public Employee getEmployeeById(Integer id) {
-		return employeeRepo.findById(id).get();
+		Optional<Employee> result = employeeRepo.findById(id);
+		if (result.isPresent()) {
+			return result.get();
+		} else {
+			throw new EntityNofoundException("No employee found with  id " +  id);
+		}
 	}
 	
 	public void saveEmployee(Employee employee) {
